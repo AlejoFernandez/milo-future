@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+    <style type="text/css">
+      body {
+        background: #d5d4e1;
+        padding: 40px 22px 40px 10px;
+        margin: 0px;
+      }
+
+      ul#mocha-stats {
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0px;
+        padding: 3px 0px;
+        width: 100%;
+        z-index: 1000;
+        color: #77749f;
+        background: #bebdd1;
+        border-bottom: 1px solid 77749f;
+        -webkit-box-shadow: 0 1px 3px #bebdd1;
+        -moz-box-shadow: 0 1px 3px #eee;
+      }
+
+      ul#mocha-stats li.passes {
+        margin-left: 15px;
+      }
+
+      ul#mocha-stats li.progress {
+        margin-right: 10px;
+      }
+
+      #mocha .test.pass:before {
+        color: rgb(67, 148, 67);
+      }
+
+      #mocha .test pre {
+        background: #bebdd1;
+        font-size: 11px;
+        border: 1px solid black;
+        -webkit-border-radius: 3px;
+        -webkit-box-shadow: 0 1px 3px #bebdd1;
+        -moz-border-radius: 3px;
+        -moz-box-shadow: 0 1px 3px #eee;
+      }
+
+      #mocha code .comment {
+        color: grey;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="../node_modules/sinon/pkg/sinon.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="../src/core.js"></script>
+    <script src="../src/factory.js"></script>
+    <script src="../src/helpers.js"></script>
+    <script src="../src/mixins/queryable.js"></script>
+    <script src="../src/types/base.js"></script>
+    <script src="../src/types/model.js"></script>
+    <script>
+      mocha.ui('bdd');
+      mocha.reporter('html');
+      expect = chai.expect;
+    </script>
+    <script src="core.js"></script>
+    <script>
+      if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+      else { mocha.run(); }
+    </script>
+  </body>
+</html>
