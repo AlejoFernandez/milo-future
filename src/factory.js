@@ -24,7 +24,7 @@ Milo.type = function () {
     Milo.assert('The type method should receive at least one argument', arguments.length > 0);
 
     params = [].slice.apply(arguments);
-    type = params.pop()
+    type = params.pop();
     constructor = type.constructor;
 
     Milo.assert('The type should have a constructor function', constructor);
