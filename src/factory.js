@@ -18,6 +18,10 @@ Milo.mixin = function (name, mixin) {
     Milo.mixins[name] = mixin;
 };
 
+Milo.inject = function (injectable) {
+    return '@inject' + (injectable ? ':' + injectable : '');
+};
+
 Milo.type = function () {
     var params, mixins, type, constructor;
 
@@ -37,6 +41,46 @@ Milo.type = function () {
     delete type.constructor;
     Milo.extend(constructor.prototype, type);
     Milo.types[constructor.name] = constructor;
+};
+
+Milo.cacheDependencies = function (type, target) {
+    var dependencies = [],
+        property, element, injectable;
+
+    for (var prop in target) {
+        property = target[prop];
+        element = prop;
+
+        if (Milo.isString(property) && property.startsWith('@inject')) {
+            injectable = property.split(':')[1] || element;
+            dependencies.push({ element: element, injectable: injectable });
+        }
+    }
+
+    type.$dependencies = dependencies;
+
+    return dependencies;
+};
+
+Milo.injectDependencies = function (context, type, target) {
+    var dependencies = type.$dependencies;
+
+    if (!dependencies) {
+        dependencies = Milo.cacheDependencies(type, target);
+    }
+
+    dependencies.forEach(function (dep) {
+        var element = dep.element, injectable = dep.injectable,
+            instance;
+
+        instance = (injectable === 'context' ? context : null) || context[injectable] ||
+            Milo.options[injectable] || Milo.mixins[injectable] ||
+            Milo.modules[injectable] || Milo[injectable];
+
+        Milo.assert('Cannot inject ' + injectable + ' into ' + type.name + '.' + element, instance);
+
+        target[element] = instance;
+    });
 };
 
 Milo.factory = function () {
@@ -61,6 +105,7 @@ Milo.factory = function () {
     if (!obj) {
         obj = new type(params.length === 1 ? params[0] : params);
         context[key] = obj;
+        Milo.injectDependencies(context, type, obj);
     }
 
     return obj;

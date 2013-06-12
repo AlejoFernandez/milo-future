@@ -1,6 +1,11 @@
-Milo.type('Queryable', {
+Milo.type('Queryable', 'ModelFactory', {
+    context: Milo.inject(),
+    module: Milo.inject(),
+
     constructor: function Model (options) {
-        this.test = options.test;
+        if (options) {
+            this.test = options.test;
+        }
     },
     doSomething: function () {
         console.log('Doing something');

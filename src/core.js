@@ -1,4 +1,4 @@
-var Milo = { types: {}, mixins: {} };
+var Milo = { types: {}, mixins: {}, modules: {}, options: {} };
 
 if ('undefined' !== typeof window) {
     window.Milo = Milo;

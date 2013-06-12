@@ -3,8 +3,9 @@ var expect = chai.expect;
 
 describe('Core', function () {
     describe('initialization', function () {
-        var context = {},
-            myModel = Milo.factory(context, 'Model', 'myModel', { test: true });
+        var Api = Milo.module('Api');
+
+        Api.model('service', { test: true });
 
         (1 === 1).should.be.equals(true);
     });
