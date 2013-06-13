@@ -23,7 +23,7 @@ Milo.inject = function (injectable) {
 };
 
 Milo.type = function () {
-    var params, mixins, type, constructor;
+    var params, mixins, type, constructor, typeMembers = {};
 
     Milo.assert('The type method should receive at least one argument', arguments.length > 0);
 
@@ -39,6 +39,8 @@ Milo.type = function () {
     }
 
     delete type.constructor;
+    Milo.extend(typeMembers, type);
+
     Milo.extend(constructor.prototype, type);
     Milo.types[constructor.name] = constructor;
 };
@@ -63,7 +65,10 @@ Milo.cacheDependencies = function (type, target) {
 };
 
 Milo.injectDependencies = function (context, type, target) {
-    var dependencies = type.$dependencies;
+    var dependencies = type.$dependencies,
+        emptyContext = {};
+
+    context = context || emptyContext;
 
     if (!dependencies) {
         dependencies = Milo.cacheDependencies(type, target);
@@ -84,7 +89,7 @@ Milo.injectDependencies = function (context, type, target) {
 };
 
 Milo.factory = function () {
-    var type, key, options, obj, context, params;
+    var typeName, key, options, obj, context, params;
 
     Milo.assert('The factory method should receive at least three arguments', arguments.length > 2);
     Milo.assert('The context should be an object', Milo.isObject(arguments[0]));
@@ -94,19 +99,29 @@ Milo.factory = function () {
     params = [].slice.apply(arguments);
     context = params.shift();
 
-    type = Milo.types[params.shift()];
-
-    Milo.assert('The type ' + arguments[1] + ' does not exist', !Milo.isUndefined(type));
-    Milo.assert('The type ' + arguments[1] + ' is not a function', Milo.isFunction(type));
-
+    typeName = params.shift();
     key = params.shift();
     obj = context[key];
 
     if (!obj) {
-        obj = new type(params.length === 1 ? params[0] : params);
+        obj = Milo.simpleFactory(typeName, params, context);
         context[key] = obj;
-        Milo.injectDependencies(context, type, obj);
     }
 
     return obj;
 };
+
+Milo.simpleFactory = function (typeName, params, context) {
+    var obj, type;
+
+    type = Milo.types[typeName];
+    params = params || [];
+
+    Milo.assert('The type ' + typeName + ' does not exist', !Milo.isUndefined(type));
+    Milo.assert('The type ' + typeName + ' is not a function', Milo.isFunction(type));
+
+    obj = new type(params.length === 1 ? params[0] : params);
+    Milo.injectDependencies(context, type, obj);
+
+    return obj;
+}
