@@ -4,11 +4,12 @@ module.exports = function (grunt) {
 
         dirs: {
             src: [
-                'src/core.js', 
-                'src/helpers.js', 
-                'src/factory.js', 
-                'src/mixins/queryable.js', 
-                'src/mixins/modelFactory.js', 
+                'src/core.js',
+                'src/helpers.js',
+                'src/factory.js',
+                'src/mixins/queryable.js',
+                'src/mixins/modelFactory.js',
+                'src/mixins/describable.js',
                 'src/types/base.js',
                 'src/types/model.js',
                 'src/types/module.js',
