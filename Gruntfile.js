@@ -3,7 +3,21 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         dirs: {
-            src: ['src/*.js', 'src/mixins/*.js', 'src/types/*.js']
+            src: [
+                'src/core.js', 
+                'src/helpers.js', 
+                'src/factory.js', 
+                'src/mixins/queryable.js', 
+                'src/mixins/modelFactory.js', 
+                'src/types/base.js',
+                'src/types/model.js',
+                'src/types/module.js',
+                'src/types/property.js',
+                'src/types/linkedProperty.js',
+                'src/types/collection.js',
+                'src/types/linkedCollection.js',
+                'src/defaults.js'
+            ]
         },
 
         clean: ['dist'],

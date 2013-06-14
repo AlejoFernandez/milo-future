@@ -124,4 +124,4 @@ Milo.simpleFactory = function (typeName, params, context) {
     Milo.injectDependencies(context, type, obj);
 
     return obj;
-}
+};

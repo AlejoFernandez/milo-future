@@ -104,6 +104,10 @@ if (!String.prototype.startsWith) {
     };
 }
 
+Milo.clone = function (source) {
+    return JSON.parse(JSON.stringify(source));
+};
+
 Milo.isUndefined = function (value) {
     return 'undefined' === typeof value;
 };
@@ -122,4 +126,14 @@ Milo.isObject = function (param) {
 
 Milo.isFunction = function (param) {
     return 'function' === typeof param;
+};
+
+Milo.fieldFactory = function (fieldType, type, options) {
+    Milo.assert('The fieldType parameter should be a string', Milo.isString(fieldType));
+    Milo.assert('The type parameter should be a string', Milo.isString(type));
+
+    options = Milo.clone(options || {});
+    options.type = type;
+
+    return Milo.simpleFactory(fieldType, options, context);
 };
