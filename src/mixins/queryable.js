@@ -1,9 +1,9 @@
 Milo.mixin('Queryable', {
     whereClause: {},
-    whereClauseDefaultOptions: Milo.inject(),
+    defaultWhereClauseOptions: Milo.inject(),
 
     where: function (clause, options) {
-        if ((options && options.merge) || this.whereClauseDefaultOptions.merge) {
+        if ((options && options.merge) || this.defaultWhereClauseOptions.merge) {
             Milo.extend(this.whereClause, clause);
         } else {
             this.whereClause = clause;

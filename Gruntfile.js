@@ -10,6 +10,9 @@ module.exports = function (grunt) {
                 'src/mixins/queryable.js',
                 'src/mixins/modelFactory.js',
                 'src/mixins/describable.js',
+                'src/mixins/validable.js',
+                'src/mixins/resource.js',
+                'src/mixins/entity.js',
                 'src/types/base.js',
                 'src/types/model.js',
                 'src/types/module.js',
@@ -17,6 +20,7 @@ module.exports = function (grunt) {
                 'src/types/linkedProperty.js',
                 'src/types/collection.js',
                 'src/types/linkedCollection.js',
+                'src/types/record.js',
                 'src/defaults.js'
             ]
         },

@@ -92,6 +92,12 @@ if (!Array.prototype.map) {
   };
 }
 
+if (!Array.prototype.contains) {
+    Array.prototype.contains = function (value) {
+        return this.indexOf(value) > -1;
+    };
+}
+
 if (!Array.isArray) {
     Array.isArray = function (value) {
         return Object.prototype.toString.call(value) === "[object Array]";
@@ -103,6 +109,35 @@ if (!String.prototype.startsWith) {
         return this.indexOf(value) === 0;
     };
 }
+
+Milo.set = function (target, property, value) {
+    target[property] = value;
+};
+
+Milo.get = function (target, property) {
+    return target[property];
+};
+
+Milo.setProperties = function (target, properties) {
+    for (var elem in properties) {
+        Milo.assert('Cannot initialize the property ' + elem + ' with a function', !Milo.isFunction(properties[elem]));
+        Milo.set(target, elem, properties[elem]);
+    }
+};
+
+Milo.getProperties = function (source, properties) {
+    var result = {}, value;
+    
+    for (var elem in source) {
+        value = Milo.get(source, elem);
+        
+        if (!Milo.isUndefined(value) && !Milo.isFunction(value) && !elem.startsWith('_') && (!properties || properties.contains(elem))) {
+            result[elem] = Milo.get(source, elem);
+        }
+    }
+
+    return result;
+};
 
 Milo.clone = function (source) {
     return JSON.parse(JSON.stringify(source));
