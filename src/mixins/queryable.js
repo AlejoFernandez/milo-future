@@ -10,5 +10,13 @@ Milo.mixin('Queryable', {
         }
 
         return this;
+    },
+
+    findOne: function () {
+
+    },
+
+    findMany: function () {
+        
     }
 });

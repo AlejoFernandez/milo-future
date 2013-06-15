@@ -10,11 +10,23 @@ describe('Core', function () {
             .describe({
                 id: Milo.property('string', { readOnly: true }),
                 name: Milo.property('string'),
-                description: Milo.property('string')
+                summary: Milo.property('string', { defaultValue: '' }),
+                description: Milo.property('string'),
+                versions: Milo.linkedCollection('Version')
             })
             .validations({
                 
             });
+
+        Api.model('Service')
+            .model('Version')
+                .uriTemplate('/versions/:id')
+                .describe({
+                    id: Milo.property('string', { readOnly: true }),
+                    major: Milo.property('string', { readOnly: true }),
+                    minor: Milo.property('string', { readOnly: true }),
+                    revision: Milo.property('string', { readOnly: true })
+                });
 
         record = Api.Service.create({ name: 'Service1', description: 'Description' });
         

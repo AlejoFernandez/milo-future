@@ -2,7 +2,7 @@ Milo.type({
     defaultOptions: Milo.inject('defaultPropertyOptions'),
 
     constructor: function Property (options) {
-        this.options = options;
+        this.options = options || this.defaultOptions;
     }
 });
 

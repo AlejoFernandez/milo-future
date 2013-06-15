@@ -8,7 +8,7 @@ Milo.type('Queryable', 'ModelFactory', 'Validable', 'Resource', 'Describable', {
     },
 
     create: function (defaults) {
-        var record = Milo.simpleFactory('Record', defaults);
+        var record = Milo.simpleFactory('Record', Milo.extend(this.getDefaults(), defaults));
         record.setModel(this);
 
         return record;
