@@ -2,6 +2,10 @@ Milo.type('Queryable', {
     defaultOptions: Milo.inject('defaultLinkedPropertyOptions'),
 
     constructor: function LinkedProperty (options) {
+    },
+
+    setName: function (name) {
+        this.name = name;
     }
 });
 

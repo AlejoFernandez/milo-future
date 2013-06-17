@@ -1,10 +1,13 @@
 Milo.mixin('Queryable', {
-    whereClause: {},
     defaultWhereClauseOptions: Milo.inject(),
 
     where: function (clause, options) {
+        if (!this.model) {
+            return Milo.simpleFactory('Finder', { model: this }).where(clause, options);
+        }
+
         if ((options && options.merge) || this.defaultWhereClauseOptions.merge) {
-            Milo.extend(this.whereClause, clause);
+            Milo.extend(this.whereClause || {}, clause);
         } else {
             this.whereClause = clause;
         }
@@ -13,10 +16,18 @@ Milo.mixin('Queryable', {
     },
 
     findOne: function () {
+        if (!this.model) {
+            return Milo.simpleFactory('Finder', { model: this }).findOne();
+        }
 
+        return this.model.create(Milo.clone(this.whereClause));
     },
 
     findMany: function () {
-        
+        if (!this.model) {
+            return Milo.simpleFactory('Finder', { model: this }).findMany();
+        }
+
+        return this.model.create(Milo.clone(this.whereClause));
     }
 });

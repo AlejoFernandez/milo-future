@@ -21,6 +21,7 @@ module.exports = function (grunt) {
                 'src/types/collection.js',
                 'src/types/linkedCollection.js',
                 'src/types/record.js',
+                'src/types/finder.js',
                 'src/defaults.js'
             ]
         },

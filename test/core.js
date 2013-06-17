@@ -3,7 +3,7 @@ var expect = chai.expect;
 
 describe('Core', function () {
     describe('initialization', function () {
-        var Api = Milo.module('Api'), record;
+        var Api = Milo.module('Api'), record, version;
 
         Api.model('Service')
             .uriTemplate('/service/:id')
@@ -29,6 +29,7 @@ describe('Core', function () {
                 });
 
         record = Api.Service.create({ name: 'Service1', description: 'Description' });
+        version = record.versions.findOne();
         
 
         (1 === 1).should.be.equals(true);

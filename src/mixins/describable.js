@@ -9,28 +9,63 @@ Milo.mixin('Describable', {
             this.resourceDescription = description;
         }
 
+        this.setupPropertyNames();
+
         return this;
     },
 
-    getDefaults: function () {
-        var result = {},
-            prop, defaultValue;
+    setupPropertyNames: function () {
+        var description = this.resourceDescription,
+            prop;
 
-        for (var elem in this.resourceDescription) {
-            prop = this.resourceDescription[elem];
+        for (var elem in description) {
+            prop = description[elem];
 
             if (!prop) {
                 break;
             }
 
-            if (!Milo.isUndefined(prop.options.defaultValue)) {
-                result[elem] = prop.options.defaultValue;
+            prop.setName(elem);
+        }
+    },
+
+    getDefaults: function () {
+        var result = {},
+            description = this.resourceDescription,
+            prop, defaultValue;
+
+        for (var elem in description) {
+            prop = description[elem];
+
+            if (!prop) {
                 break;
             }
 
-            result[elem] = null;
+            if (!prop.defaultValue) {
+                result[elem] = null;
+                break;                
+            }
+
+            result[elem] = prop.defaultValue();
         }
 
         return result;
+    },
+
+    setupRecord: function (record) {
+        var description = this.resourceDescription,
+            prop;
+
+        for (var elem in description) {
+            prop = description[elem];
+
+            if (!prop) {
+                break;
+            }
+
+            if (prop.setupRecord) {
+                prop.setupRecord(record);                
+            }
+        }
     }
 });

@@ -7,5 +7,6 @@ Milo.type('Entity', {
     },
     setModel: function (model) {
         this._model = model;
+        model.setupRecord(this);
     }
 });

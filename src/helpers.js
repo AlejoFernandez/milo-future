@@ -110,6 +110,22 @@ if (!String.prototype.startsWith) {
     };
 }
 
+if (!String.prototype.camelize) {
+    String.prototype.camelize = function () {
+        return this.toString().replace(/(?:^|[\-_])(\w)/g, function (_, c) {
+            return c ? c.toUpperCase() : '';
+        });
+    };
+}
+
+if (!String.prototype.capitalize) {
+    String.prototype.capitalize = function() {
+        return this.toString().replace(/\b[a-z]/g, function (w) {
+            return w.toUpperCase();
+        });
+    };
+}
+
 Milo.set = function (target, property, value) {
     target[property] = value;
 };
@@ -130,7 +146,7 @@ Milo.getProperties = function (source, properties) {
     
     for (var elem in source) {
         value = Milo.get(source, elem);
-        
+
         if (!Milo.isUndefined(value) && !Milo.isFunction(value) && !elem.startsWith('_') && (!properties || properties.contains(elem))) {
             result[elem] = Milo.get(source, elem);
         }
@@ -140,7 +156,15 @@ Milo.getProperties = function (source, properties) {
 };
 
 Milo.clone = function (source) {
-    return JSON.parse(JSON.stringify(source));
+    if (!source) {
+        return source;
+    }
+
+    if (source.clone) {
+        return source.clone();
+    } else {
+        return JSON.parse(JSON.stringify(source));        
+    }
 };
 
 Milo.isUndefined = function (value) {
