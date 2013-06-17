@@ -2,12 +2,13 @@ Milo.mixin('Queryable', {
     defaultWhereClauseOptions: Milo.inject(),
 
     where: function (clause, options) {
-        if (!this.model) {
+        if (!Milo.isObject(this.model)) {
             return Milo.simpleFactory('Finder', { model: this }).where(clause, options);
         }
 
         if ((options && options.merge) || this.defaultWhereClauseOptions.merge) {
-            Milo.extend(this.whereClause || {}, clause);
+            this.whereClause = this.whereClause || {};
+            Milo.extend(this.whereClause, clause);
         } else {
             this.whereClause = clause;
         }
@@ -16,7 +17,7 @@ Milo.mixin('Queryable', {
     },
 
     findOne: function () {
-        if (!this.model) {
+        if (!Milo.isObject(this.model)) {
             return Milo.simpleFactory('Finder', { model: this }).findOne();
         }
 
@@ -24,7 +25,7 @@ Milo.mixin('Queryable', {
     },
 
     findMany: function () {
-        if (!this.model) {
+        if (!Milo.isObject(this.model)) {
             return Milo.simpleFactory('Finder', { model: this }).findMany();
         }
 
